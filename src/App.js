@@ -28,15 +28,12 @@ function Board({ xIsNext, squares, onPlay }) {
         status = "Next player: " + (xIsNext ? "X" : "O");
     }
 
-    console.log(squares[0]);
-
     const renderSquares = () => Array.from({ length: 3 }).map((v, i) => {
         let s;
         let row = [];
         for (let j = 0; j < 3; ++j) {
             s = i * 3 + j;
             row.push(<Square key={s} value={squares[s]} onSquareClick={() => handleClick(i * 3 + j)} />);
-            console.log(squares[s]);
         }
 
         return (
@@ -71,10 +68,6 @@ export default function Game() {
         setCurrentmove(nextMove);
     }
 
-    function sortMoves() {
-        setMovesSorting(movesSorting === "Ascending" ? "Descending" : "Ascending");
-    }
-
     const moves = history.map((squares, move) => {
         let description;
 
@@ -95,6 +88,10 @@ export default function Game() {
         }
     });
 
+    function sortMoves() {
+        setMovesSorting(movesSorting === "Ascending" ? "Descending" : "Ascending");
+    }
+
     return (
         <div className="game">
             <div className="game-board">
@@ -102,7 +99,7 @@ export default function Game() {
             </div>
             <div className="game-info">
                 <center><button onClick={sortMoves}>{movesSorting}</button></center>
-                <ol>{moves}</ol>
+                <ol>{movesSorting === "Ascending" ? moves.reverse() : moves}</ol>
             </div>
         </div>
     )
